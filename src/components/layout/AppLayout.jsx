@@ -1,17 +1,19 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { AppHeader } from "./AppHeader";
+
 function AppLayout({ children }) {
-  return <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <AppHeader />
-          <main className="flex-1 p-6 overflow-auto">{children}</main>
+          <main className="flex-1 p-4 lg:p-6 overflow-auto">{children}</main>
         </div>
       </div>
-    </SidebarProvider>;
+    </SidebarProvider>
+  );
 }
-export {
-  AppLayout
-};
+
+export { AppLayout };
