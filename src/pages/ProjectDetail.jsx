@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, MapPin, User, CheckCircle2, Clock, AlertCircle, MessageSquare } from "lucide-react";
+import { ArrowLeft, MapPin, User, CheckCircle2, Clock, AlertCircle, MessageSquare, Upload, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { projects } from "@/data/mockData";
+import { useState } from "react";
 
 const statusConfig = {
   completed: { icon: CheckCircle2, label: "Completed", color: "text-success", bg: "bg-success", ring: "ring-success/20" },
@@ -15,6 +16,33 @@ export default function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const project = projects.find((p) => p.id === id);
+  const [stages, setStages] = useState(project?.stages || []);
+  const [uploadedFiles, setUploadedFiles] = useState({});
+
+  const handleStatusChange = (stageId, newStatus) => {
+    setStages(prevStages =>
+      prevStages.map(stage =>
+        stage.id === stageId ? { ...stage, status: newStatus } : stage
+      )
+    );
+  };
+
+  const handleFileUpload = (stageId, event) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setUploadedFiles(prev => ({
+        ...prev,
+        [stageId]: [...(prev[stageId] || []), ...Array.from(files)]
+      }));
+    }
+  };
+
+  const removeFile = (stageId, fileIndex) => {
+    setUploadedFiles(prev => ({
+      ...prev,
+      [stageId]: prev[stageId].filter((_, idx) => idx !== fileIndex)
+    }));
+  };
 
   if (!project) {
     return (
@@ -24,8 +52,8 @@ export default function ProjectDetail() {
     );
   }
 
-  const completedCount = project.stages.filter((s) => s.status === "completed").length;
-  const progress = Math.round((completedCount / project.stages.length) * 100);
+  const completedCount = stages.filter((s) => s.status === "completed").length;
+  const progress = Math.round((completedCount / stages.length) * 100);
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -62,7 +90,7 @@ export default function ProjectDetail() {
             />
           </div>
           <p className="text-xs text-muted-foreground mt-2">
-            {completedCount} of {project.stages.length} stages completed
+            {completedCount} of {stages.length} stages completed
           </p>
         </CardContent>
       </Card>
@@ -73,10 +101,10 @@ export default function ProjectDetail() {
         </CardHeader>
         <CardContent className="pb-6">
           <div className="relative">
-            {project.stages.map((stage, idx) => {
+            {stages.map((stage, idx) => {
               const config = statusConfig[stage.status];
               const Icon = config.icon;
-              const isLast = idx === project.stages.length - 1;
+              const isLast = idx === stages.length - 1;
 
               return (
                 <div key={stage.id} className="flex gap-4 relative">
@@ -90,28 +118,63 @@ export default function ProjectDetail() {
                   </div>
 
                   <div className={`pb-6 pt-1 flex-1 ${isLast ? "pb-0" : ""}`}>
-                    <div className="flex items-center justify-between flex-wrap gap-2">
+                    <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
                       <h3 className="font-semibold text-foreground text-sm">{stage.name}</h3>
-                      <Badge
-                        variant="outline"
-                        className={`text-xs border-0 ${
-                          stage.status === "completed"
-                            ? "bg-success/10 text-success"
-                            : stage.status === "in-progress"
-                            ? "bg-warning/10 text-warning"
-                            : "bg-destructive/10 text-destructive"
-                        }`}
+                      <select
+                        value={stage.status}
+                        onChange={(e) => handleStatusChange(stage.id, e.target.value)}
+                        className="px-3 py-1 rounded border border-border bg-card text-card-foreground text-xs font-medium hover:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
                       >
-                        {config.label}
-                      </Badge>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                      </select>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Updated: {stage.date}</p>
+                    <p className="text-xs text-muted-foreground mb-3">Updated: {stage.date}</p>
+                    
                     {stage.note && (
-                      <div className="flex items-start gap-1.5 mt-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-3 py-2">
+                      <div className="flex items-start gap-1.5 mb-3 text-xs text-muted-foreground bg-muted/50 rounded-md px-3 py-2">
                         <MessageSquare className="h-3 w-3 mt-0.5 shrink-0" />
                         <span>{stage.note}</span>
                       </div>
                     )}
+
+                    {/* Upload Section */}
+                    <div className="mt-4 p-3 bg-muted/30 rounded-md border border-dashed border-border">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Upload className="h-4 w-4 text-muted-foreground" />
+                        <label className="text-xs font-medium text-foreground cursor-pointer hover:text-primary transition">
+                          Upload Files
+                          <input
+                            type="file"
+                            multiple
+                            onChange={(e) => handleFileUpload(stage.id, e)}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                      
+                      {/* Uploaded Files List */}
+                      {uploadedFiles[stage.id] && uploadedFiles[stage.id].length > 0 && (
+                        <div className="mt-2 space-y-1">
+                          {uploadedFiles[stage.id].map((file, idx) => (
+                            <div key={idx} className="flex items-center justify-between bg-card/50 p-2 rounded text-xs">
+                              <span className="text-muted-foreground truncate">{file.name}</span>
+                              <button
+                                onClick={() => removeFile(stage.id, idx)}
+                                className="text-destructive hover:text-destructive/80 transition"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
+                      {(!uploadedFiles[stage.id] || uploadedFiles[stage.id].length === 0) && (
+                        <p className="text-xs text-muted-foreground">No files uploaded yet</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
