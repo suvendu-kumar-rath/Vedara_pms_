@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="100%" height="100%" fill="#000" />
+  <g transform="translate(56,80)">
+    <circle cx="312" cy="48" r="96" fill="#f2b705" />
+    <path d="M352 16 L328 48 L296 48 L296 80 L352 80 Z" fill="#000" />
+    <text x="0" y="240" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="96" fill="#f2b705">vedara</text>
+    <text x="2" y="300" font-family="Inter, Arial, sans-serif" font-weight="400" font-size="18" fill="#f2b705">home design studio</text>
+  </g>
+</svg>

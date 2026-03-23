@@ -11,7 +11,7 @@ const defaultStages = [
   { id: 1, name: "Site Survey Report", status: "completed", date: "Oct 12, 2024", note: "Measurements verified on-site." },
   { id: 2, name: "Theme Idea", status: "completed", date: "Oct 14, 2024", note: "Modern Scandinavian selected." },
   { id: 3, name: "Furniture Layout", status: "in-progress", date: "Oct 18, 2024", note: "Awaiting client feedback on sofa placement." },
-  { id: 4, name: "Outline", status: "pending", date: "—", note: "" },
+  
   { id: 5, name: "2D Design", status: "pending", date: "—", note: "" },
   { id: 6, name: "3D Design", status: "pending", date: "—", note: "" },
   { id: 7, name: "P2P Transfer to Operation", status: "pending", date: "—", note: "" },
@@ -38,7 +38,7 @@ const projects = [
       { id: 1, name: "Site Survey Report", status: "completed", date: "Sep 20, 2024", note: "All done." },
       { id: 2, name: "Theme Idea", status: "completed", date: "Sep 25, 2024", note: "Industrial loft theme." },
       { id: 3, name: "Furniture Layout", status: "completed", date: "Oct 2, 2024", note: "Approved by client." },
-      { id: 4, name: "Outline", status: "completed", date: "Oct 8, 2024", note: "Finalized." },
+      
       { id: 5, name: "2D Design", status: "in-progress", date: "Oct 14, 2024", note: "Kitchen layout pending." },
       { id: 6, name: "3D Design", status: "pending", date: "—", note: "" },
       { id: 7, name: "P2P Transfer to Operation", status: "pending", date: "—", note: "" },
@@ -69,7 +69,7 @@ const projects = [
       { id: 1, name: "Site Survey Report", status: "completed", date: "Oct 1, 2024", note: "Done." },
       { id: 2, name: "Theme Idea", status: "pending", date: "—", note: "" },
       { id: 3, name: "Furniture Layout", status: "pending", date: "—", note: "" },
-      { id: 4, name: "Outline", status: "pending", date: "—", note: "" },
+      
       { id: 5, name: "2D Design", status: "pending", date: "—", note: "" },
       { id: 6, name: "3D Design", status: "pending", date: "—", note: "" },
       { id: 7, name: "P2P Transfer to Operation", status: "pending", date: "—", note: "" },

@@ -1,4 +1,4 @@
-import { Bell, LogOut, Search } from "lucide-react";
+import { LogOut, Search } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,16 +19,7 @@ function AppHeader() {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative text-muted-foreground hover:text-foreground h-9 w-9"
-        >
-          <Bell className="h-[18px] w-[18px]" strokeWidth={1.8} />
-          <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-destructive ring-2 ring-card" />
-        </Button>
-
-        <div className="h-6 w-px bg-border mx-1" />
+        
 
         <div className="flex items-center gap-2.5 pl-1">
           <Avatar className="h-8 w-8">
