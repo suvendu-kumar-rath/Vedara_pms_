@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Plus, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,11 +11,6 @@ import { projects as initialProjects, users, defaultStages } from "@/data/mockDa
 
 const designers = users.filter((u) => u.role === "Designer");
 
-const statusStyles = {
-  "In Progress": "bg-info/10 text-info border-info/20",
-  Completed: "bg-success/10 text-success border-success/20",
-  "On Hold": "bg-warning/10 text-warning border-warning/20",
-};
 
 export default function Projects() {
   const navigate = useNavigate();
@@ -96,7 +90,7 @@ export default function Projects() {
                   <th className="text-left py-3 px-5 font-medium text-muted-foreground">Client</th>
                   <th className="text-left py-3 px-5 font-medium text-muted-foreground hidden md:table-cell">Location</th>
                   <th className="text-left py-3 px-5 font-medium text-muted-foreground">Designer</th>
-                  <th className="text-left py-3 px-5 font-medium text-muted-foreground">Status</th>
+                  
                   <th className="text-right py-3 px-5 font-medium text-muted-foreground">Action</th>
                 </tr>
               </thead>
@@ -107,11 +101,7 @@ export default function Projects() {
                     <td className="py-3.5 px-5 text-muted-foreground">{project.clientName}</td>
                     <td className="py-3.5 px-5 text-muted-foreground hidden md:table-cell">{project.location}</td>
                     <td className="py-3.5 px-5 text-foreground">{project.assignedDesigner}</td>
-                    <td className="py-3.5 px-5">
-                      <Badge variant="outline" className={statusStyles[project.status] || ""}>
-                        {project.status}
-                      </Badge>
-                    </td>
+                    
                     <td className="py-3.5 px-5 text-right">
                       <Button variant="ghost" size="sm" className="gap-1.5 text-primary hover:text-primary" onClick={() => navigate(`/projects/${project.id}`)}>
                         <Eye className="h-4 w-4" /> View
